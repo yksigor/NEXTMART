@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossNextMart.Login" BackgroundImage="fundo.jpg">
+    
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value= "#006400" />
+            <Setter Property="BorderRadius" Value="23" />
+            <Setter Property="BorderColor" Value="Black"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="BorderWidth" Value="2"/>
+        </Style>
+        <Style TargetType="Entry">
+            <Setter Property="PlaceholderColor" Value="Black"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content >
+        <StackLayout Padding="35">
+            <Grid HeightRequest="170">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout>
+                    <Image Source="login.png" HeightRequest="190"/>
+                </StackLayout>
+            </Grid>
+            <StackLayout Orientation="Vertical" Padding="20">
+                <Frame BackgroundColor="#7dffffff" CornerRadius="30">
+                    <StackLayout >
+                        <Entry   Placeholder="Usuario" x:Name="Username" />
+                        <Entry  Placeholder="Senha"  x:Name="Password" IsPassword="True"/>
+                    </StackLayout>
+                </Frame>
+                <StackLayout Orientation="Vertical" Padding="30">
+                    <Button  Text="Login" Clicked="Button_Clicked"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

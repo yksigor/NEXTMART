@@ -1,0 +1,41 @@
+﻿@model WebMVC.Models.LoginViewModel
+
+<div class="row" id="formPF">
+    <div class="col-md-12">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label asp-for="PessoaFisica.Cpf" class="control-label"></label>
+                <input asp-for="PessoaFisica.Cpf" class="form-control" onblur="buscarCPF()" type="number" />
+                <div class="valid-feedback">
+                    CPF válido!
+                </div>
+                <div class="invalid-feedback" id="cpfInvalido"></div>
+            </div>
+            <div class="form-group col-md-8">
+                <label asp-for="PessoaFisica.NomeCompleto" class="control-label"></label>
+                <input asp-for="PessoaFisica.NomeCompleto" class="form-control" />
+                <span asp-validation-for="PessoaFisica.NomeCompleto" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-4">
+                <label asp-for="PessoaFisica.DataNascimento" class="control-label"></label>
+                <input asp-for="PessoaFisica.DataNascimento" class="form-control" />
+                <span asp-validation-for="PessoaFisica.DataNascimento" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="PessoaFisica.Sexo" class="control-label"></label>
+                <select asp-for="PessoaFisica.Sexo" class="form-control" asp-items="new SelectList(@Model.PessoaFisica.GetSexos())">
+                    <option selected></option>
+                </select>
+                <span asp-validation-for="PessoaFisica.Sexo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="PessoaFisica.Telefone" class="control-label"></label>
+                <input asp-for="PessoaFisica.Telefone" class="form-control" />
+                <span asp-validation-for="PessoaFisica.Telefone" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>

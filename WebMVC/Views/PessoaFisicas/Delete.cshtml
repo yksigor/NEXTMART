@@ -1,0 +1,61 @@
+﻿@model Domain.Models.PessoaFisica
+
+@{
+    Layout = null;
+}
+
+<h1>Deletar Pessoa Física</h1>
+<h3>Tens certeza que queres deletar este registro?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            CPF:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Cpf)
+        </dd>
+        <dt class="col-sm-4">
+            Nome Completo:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.NomeCompleto)
+        </dd>
+        <dt class="col-sm-4">
+            Data de Nascimento:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.DataNascimento)
+        </dd>
+        <dt class="col-sm-4">
+            Sexo:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Sexo)
+        </dd>
+        <dt class="col-sm-4">
+            Usuário:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Usuario.Email)
+        </dd>
+        <dt class="col-sm-4">
+            Endereço:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Endereco.Bairro)
+        </dd>
+        <dt class="col-sm-4">
+            Telefone:
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Telefone)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Deletar" class="btn btn-danger" />
+        <a data-dismiss="modal" class="btn btn-primary text-white"> Voltar</a>
+    </form>
+</div>

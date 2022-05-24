@@ -1,0 +1,41 @@
+﻿<div class="menu bg-dark">
+    <div class="menu-header bg-secondary menu-propit">
+        <a><h2>@User.Identity.Name</h2></a>
+    </div>
+    @if (User.IsInRole("Consumidor"))
+    {
+        <div class="menu-body menu-propit">
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="Lojas" class="menu-item"><i class="fa fa-shopping-basket"></i> <div>Lojas</div></a>
+            </div>
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="VitrineLoja" class="menu-item"><i class="fa fa-dropbox"></i> <div>Produtos</div></a>
+            </div>
+
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="Pedidos" class="menu-item"><i class="fa fa-shopping-bag"></i> <div>Pedidos</div></a>
+            </div>
+
+            <div class="menu-box">
+                <a asp-action="Carteira" asp-controller="PessoaFisicas" class="menu-item"><i class="fa fa-dollar"></i> <div>Carteira</div></a>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Comerciante"))
+    {
+        <div class="menu-body menu-propit">
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="Produtos" class="menu-item"><i class="fa fa-dropbox"></i> <div>Produtos</div></a>
+            </div>
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="CategoriaProdutos" class="menu-item"><i class="fa fa-search"></i> <div>Categorias</div></a>
+            </div>
+            <div class="menu-box">
+                <a asp-action="Index" asp-controller="Vendas" class="menu-item"><i class="fa fa-shopping-bag"></i> <div>Itens Vendidos</div></a>
+            </div>
+            <div class="menu-box">
+                <a asp-action="Carteira" asp-controller="PessoaJuridicas" class="menu-item"><i class="fa fa-dollar"></i> <div>Carteira</div></a>
+            </div>
+        </div>
+    }
+</div>

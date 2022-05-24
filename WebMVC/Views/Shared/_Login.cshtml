@@ -1,0 +1,24 @@
+﻿@{ 
+    var n = new Random().Next(1, 8);
+    var bgclass = "big-background" + n;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body class="@bgclass">
+    <div class="row center-box">
+        <div class="col-md-8 center-form form-box">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿@model WebMVC.Models.AdministradorViewModel
+@using Domain.Models
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="details-bigbox container fill-content">
+    <ul class="nav nav-tabs ss-a">
+        <li class="nav-item">
+            <a class="nav-link active bg-secondary" data-url="@Url.Action("ListaTarifas","Admin")" data-toggle="tab" href="" aria-selected="true">Tarifas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link bg-secondary" data-url="@Url.Action("ListaVendas","Admin")" data-toggle="tab" href="" aria-selected="false">Ganhos sistemáticos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link bg-secondary" data-url="@Url.Action("AllVendas", "Admin")" data-toggle="tab" href="" aria-selected="false">Vendas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link bg-secondary" data-url="@Url.Action("Index", "Usuarios")" data-toggle="tab" href="" aria-selected="false">Usuários</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link bg-secondary" data-url="@Url.Action("Index","PessoaFisicas")" data-toggle="tab" href="" aria-selected="false">Consumidores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link bg-secondary" data-url="@Url.Action("Index", "PessoaJuridicas")" data-toggle="tab" href="" aria-selected="false">Comerciantes</a>
+        </li>
+    </ul>
+    <div id="listou">
+        @await Html.PartialAsync("_listaTarifas.cshtml", Model.Tarifas)
+    </div>
+</div>
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script src="~/js/chamador.js"></script>
+<link rel="stylesheet" type="text/css" href="~/css/custom.css" />

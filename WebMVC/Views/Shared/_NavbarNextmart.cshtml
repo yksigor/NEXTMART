@@ -1,0 +1,89 @@
+﻿<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button class="navbar-toggle btn btn-outline-light menu-show">
+            <span class="fa fa-bars"></span>
+        </button>
+    }
+    <a class="navbar-brand" href="/"><img src="~/img/logo v2b.png" class="logo" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    @{
+        <div class="collapse navbar-collapse" id="navbarCollapse" align="right">
+            <div class="collapse-box">
+                <div class="form-inline total-right ls" align="right">
+                    <div class="form-inline mr-sm-2">
+                        <div class="input-group">
+                            <input id="Produtos" class="form-control" placeholder="Buscar Produto" aria-label="Buscar Produto" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-light" type="button" onclick="BuscarProdutos()" id="button-addon2">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    @if (!User.IsInRole("Comerciante"))
+                    {
+                        <a asp-action="Index" asp-controller="Carrinho" class="btn btn-outline-light my-2 my-sm-0"><i class="fa fa-shopping-cart"></i> Carrinho</a>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <a asp-action="Index" asp-controller="Login" class="btn btn-outline-primary my-2 my-sm-0 " id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> @User.Identity.Name</a>
+                            @if (User.IsInRole("Consumidor"))
+                            {
+                                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                    <a asp-action="Details" asp-controller="PessoaFisicas" class="dropdown-item"><i class="fa fa-info-circle"></i> Perfil</a>
+                                    <a asp-action="EditUsuario" asp-controller="PessoaFisicas" class="dropdown-item"><i class="fa fa-key"></i> Segurança</a>
+                                </div>
+                            }
+                            @if (User.IsInRole("Comerciante"))
+                            {
+                                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                    <a asp-action="Details" asp-controller="PessoaJuridicas" class="dropdown-item"><i class="fa fa-info-circle"></i> Perfil</a>
+                                    <a asp-action="EditUsuario" asp-controller="PessoaJuridicas" class="dropdown-item"><i class="fa fa-key"></i> Segurança</a>
+                                </div>
+                            }
+                            <a asp-action="Logout" asp-controller="Login" class="btn btn-outline-danger my-2 my-sm-0"><i class="fa fa-sign-out"></i> Sair</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Login" class="btn btn-outline-success my-2 my-sm-0"><i class="fa fa-sign-out"></i> Login</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</nav>
+
+<div id="tabela" class="col-md-5 tabela-produtos mt-1"></div>
+
+<script>
+    $("#Produtos").keyup(function (e) {
+        $.ajax({
+            method: "GET",
+            url: '@Url.Action("BuscarProduto","VitrineLoja")',
+            data: { nomeProduto: $("#Produtos").val()}
+        })
+            .done(function (data) {
+                $("#tabela").empty();
+
+                $.each(data, function (index, valor) {
+                    $("#tabela").append("<div class='alert alert-dark'><a href='/VitrineLoja/VerProduto/"+valor.id+"'>" + valor.nome + "</a></div>");
+                })
+            });
+
+        if(e.which == 13) {
+            BuscarProdutos();
+        }
+    });
+
+    function BuscarProdutos() {
+        var url = "/VitrineLoja/ExibirBuscaProdutos?nomeProduto=" + $("#Produtos").val();
+        window.location.replace(url);
+    }
+
+</script>

@@ -1,0 +1,32 @@
+﻿@model Domain.Models.Venda
+
+@{
+    ViewData["Title"] = "Venda";
+}
+<div class="fill-content">
+    <h1>Venda</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="Venda">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="DataVenda" class="control-label"></label>
+                    <input asp-for="DataVenda" class="form-control" />
+                    <span asp-validation-for="DataVenda" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StatusVenda" class="control-label"></label>
+                    <select asp-for="StatusVenda" class="form-control"></select>
+                    <span asp-validation-for="StatusVenda" class="text-danger"></span>
+                </div>
+                <partial name="_Itens" model="@Model.Itens" />
+                <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

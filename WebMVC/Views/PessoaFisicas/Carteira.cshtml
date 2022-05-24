@@ -1,0 +1,68 @@
+﻿@model Domain.Models.PessoaFisica
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Carteira";
+}
+
+<script>
+
+    $(document).ready(function () {
+        if ("@ViewBag.Atualizado" == "sim")
+        {
+            MostrarModal();
+        }
+    });   
+
+    function MostrarModal() {
+        $("#modalExemplo").modal('show');
+    }
+</script>
+
+<div class="container fill-content">
+    <h1>Carteira</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Carteira">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Saldo" class="control-label"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="btnGroupAddon2">R$</div>
+                        </div>
+                        <input asp-for="Saldo" class="form-control" type="number" min="1" />
+                    </div>
+                    <span asp-validation-for="Saldo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Gravar" class="btn btn-success" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Saldo Atualizado</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert">
+                        O saldo foi atualizado para <strong>R$ @Model.Saldo</strong>!
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

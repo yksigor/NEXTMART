@@ -1,0 +1,37 @@
+﻿@model Domain.Models.Tarifa
+
+@{
+    Layout = null;
+}
+
+<h1>Deletar</h1>
+<h3>Tens certeza que queres deletar este registro?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            Código:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Codigo)
+        </dd>
+        <dt class = "col-sm-3">
+            Porcentagem:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Porcentagem)
+        </dd>
+        <dt class = "col-sm-3">
+            Valor Máximo:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.ValorMaximo)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Deletar" class="btn btn-danger" />
+        <a data-dismiss="modal" class="btn btn-primary text-white">Voltar</a>
+    </form>
+</div>

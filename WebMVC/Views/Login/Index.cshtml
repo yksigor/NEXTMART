@@ -1,0 +1,43 @@
+﻿@model Domain.Models.Usuario
+@{
+    Layout = null;
+    var n = new Random().Next(1, 13);
+    var bgclass = "big-background" + n;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nextmart Inc.&reg; Tudo o que você precisa, simples e rápido!</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body class="@bgclass">
+    <div class="row center-box">
+        <div class="col-md-4 center-form form-box">
+            <form method="post" asp-action="Logon">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input asp-for="Username" class="form-control" />
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Entrar" class="btn btn-success" />
+                    <a asp-controller="Login" asp-action="CriarNovo" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

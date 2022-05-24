@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossNextMart.Views.DetalhePedido">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Voltar" Clicked="ToolbarItem_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="Android, UWP" Value="exit.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>        
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <ListView x:Name="ListView" 
+                      RowHeight="195" 
+                      SeparatorVisibility="None" 
+                      SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="5">
+                                <Frame  HeightRequest="195" 
+                                        BackgroundColor="White" 
+                                        BorderColor="Green" 
+                                        CornerRadius="3" 
+                                        Margin="1">
+                                    <Grid HeightRequest="20" WidthRequest="250">
+
+                                        <Grid.ColumnDefinitions >
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackLayout  Grid.Column="0">
+                                            <Image Source="{Binding GetUrlImage}" 
+                                                   HeightRequest="160" 
+                                                   WidthRequest="160"/>
+                                        </StackLayout>
+
+                                        <StackLayout Grid.Column="1" 
+                                                     Grid.Row="0">
+                                            <Label Text="{Binding Produto.Nome}"  
+                                                   FontSize="17" 
+                                                   TextColor="Green"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Grid.Column="1" Grid.Row="2" 
+                                                     HorizontalOptions="Start">
+                                            <Label Text="Loja:" 
+                                                   TextColor="Gray"  />
+                                            <Label Text="{Binding Produto.Comerciante.NomeFantasia}" />
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal" 
+                                                     HorizontalOptions="Start" 
+                                                     Grid.Column="1" 
+                                                     Grid.Row="3">
+                                            <Label Text="Marca:" 
+                                                   TextColor="Gray" />
+                                            <Label Text="{Binding Produto.Marca}"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal" 
+                                                     HorizontalOptions="StartAndExpand" 
+                                                     Grid.Column="1"
+                                                     Grid.Row="4">
+                                            <Label Text="Qtd: " 
+                                                   TextColor="Gray"/>
+                                            <Label Text="{Binding Quantidade}" />
+                                        </StackLayout>
+
+                                        <StackLayout  Orientation="Horizontal" 
+                                                      HorizontalOptions="StartAndExpand" 
+                                                      Grid.Column="1" 
+                                                      Grid.Row="5">
+                                            <Label Text="Unid " TextColor="Green" />
+                                            <Label Text="{Binding LblValorUnid}"
+                                                   HorizontalOptions="EndAndExpand"/>
+                                        </StackLayout>
+
+                                        <StackLayout  Orientation="Horizontal" 
+                                                      HorizontalOptions="EndAndExpand" 
+                                                      Grid.Column="1" 
+                                                      Grid.Row="6">
+                                            <Label Text="Total = " TextColor="Green"/>
+                                            <Label Text="{Binding LblValorTotal}" />
+                                        </StackLayout>
+
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

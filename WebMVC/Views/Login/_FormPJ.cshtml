@@ -1,0 +1,35 @@
+﻿@model WebMVC.Models.LoginViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label asp-for="PessoaJuridica.Cnpj" class="control-label"></label>
+                <input asp-for="PessoaJuridica.Cnpj" class="form-control" />
+                <span asp-validation-for="PessoaJuridica.Cnpj" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-8">
+                <label asp-for="PessoaJuridica.RazaoSocial" class="control-label"></label>
+                <input asp-for="PessoaJuridica.RazaoSocial" class="form-control" />
+                <span asp-validation-for="PessoaJuridica.RazaoSocial" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="PessoaJuridica.NomeFantasia" class="control-label"></label>
+                <input asp-for="PessoaJuridica.NomeFantasia" class="form-control" />
+                <span asp-validation-for="PessoaJuridica.NomeFantasia" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="PessoaJuridica.Segmento" class="control-label"></label>
+                <input asp-for="PessoaJuridica.Segmento" class="form-control" />
+                <span asp-validation-for="PessoaJuridica.Segmento" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="PessoaJuridica.Telefone" class="control-label"></label>
+                <input asp-for="PessoaJuridica.Telefone" class="form-control" />
+                <span asp-validation-for="PessoaJuridica.Telefone" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>

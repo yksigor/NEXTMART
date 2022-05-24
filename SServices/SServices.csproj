@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Standard Services</Description>
+    <Authors>Alan Barros</Authors>
+    <Company>Nextmart</Company>
+    <Product>Nextmart</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CORE\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

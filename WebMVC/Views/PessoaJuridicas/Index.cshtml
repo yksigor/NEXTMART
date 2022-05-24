@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Domain.Models.PessoaJuridica>
+
+@{
+    Layout = null;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                CNPJ
+            </th>
+            <th>
+                Razão Social
+            </th>
+            <th>
+                Nome Fantasia
+            </th>
+            <th>
+                Segmento
+            </th>
+            <th>
+                Usuário
+            </th>
+            <th>
+                Endereço
+            </th>
+            <th>
+                Saldo
+            </th>
+            <th style="color: darkgreen">
+                Opções
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnpj)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RazaoSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeFantasia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Segmento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Endereco.Bairro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saldo)
+            </td>
+            <td>
+                <a asp-action="Delete" data-target="#modal-container" data-toggle="modal" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

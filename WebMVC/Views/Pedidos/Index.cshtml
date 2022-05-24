@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Domain.Models.Venda>
+<div class="details-bigbox container fill-content">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataVenda)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusVenda)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataVenda)
+                    </td>
+                    <td>
+                        <span class="btn btn-dark">@Html.DisplayFor(modelItem => item.StatusVenda)</span>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary"><i class="fa fa-eye"></i> Ver</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var _doc = $(document).height();
+        var _win = $(window).height();
+
+        if (_doc > _win) {
+            $(".fill-content").css("height", "auto");
+        }
+    });
+</script>

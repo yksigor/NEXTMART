@@ -1,0 +1,38 @@
+﻿@model Domain.Models.Venda
+
+@{
+    Layout = null;
+}
+
+<h1>Deletar</h1>
+<h3>Tens certeza que queres deletar este registro?</h3>
+<div>
+    <h4>Venda</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-3">
+            Usuário:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.Usuario.Username)
+        </dd class>
+        <dt class = "col-sm-3">
+            Data da Venda:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.DataVenda)
+        </dd>
+        <dt class = "col-sm-3">
+            Status:
+        </dt>
+        <dd class = "col-sm-9">
+            @Html.DisplayFor(model => model.StatusVenda)
+        </dd>
+    </dl>
+    
+    <form asp-action="DeleteVenda">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Deletar" class="btn btn-danger" />
+        <a data-dismiss="modal" class="btn btn-primary text-white">Voltar</a>
+    </form>
+</div>

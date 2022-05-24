@@ -1,0 +1,144 @@
+﻿@model Domain.Models.Venda
+<div class="details-bigbox container fill-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <h1>Pedido @Model.Id</h1>
+                </div>
+                <div class="col-md-5">
+                    @{
+                        string alerta;
+
+                        switch (Model.StatusVenda)
+                        {
+                            case Domain.Models.StatusVenda.Aberta:
+                                alerta = "alert-warning";
+                                break;
+                            case Domain.Models.StatusVenda.Cancelada:
+                                alerta = "alert-danger";
+                                break;
+                            case Domain.Models.StatusVenda.Concluida:
+                                alerta = "alert-success";
+                                break;
+                            default:
+                                alerta = "alert-dark";
+                                break;
+                        }
+
+                        <div class="alert @alerta" role="alert">
+                            @Html.DisplayFor(a => a.StatusVenda)
+                        </div>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text alert-info">
+                                @Html.DisplayNameFor(a => a.DataVenda)
+                            </span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                @Model.DataVenda.ToString("dd/MM/yyyy")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+
+            @if (Model.StatusVenda == Domain.Models.StatusVenda.Aberta)
+            {
+                <partial name="_ItensPedido" model="@Model.Itens" />
+            }
+            else
+            {
+                <partial name="_ItensPedidoBloq" model="@Model.Itens" />
+            }
+
+            <div class="row">
+                @{
+                    double total = 0.0;
+                    foreach (var item in Model.Itens)
+                    {
+                        total += item.Produto.Preco * item.Quantidade;
+                    }
+                    <div class="col-sm-3 mb-3 carrinho-box">
+                        <h3>Valor Total:</h3>
+                        <hr />
+                        <h4 id="valorTotal">R$ @total</h4>
+                    </div>
+                }
+                @if (Model.StatusVenda == Domain.Models.StatusVenda.Aberta)
+                {
+                    <div class="form-group col-sm-9">
+                        <a asp-action="Pagar" asp-route-idvenda="@Model.Id" class="btn btn-success" onclick="confirm('Confirmar?')"><i class="fa fa-dollar"></i> Efetuar Pagamento</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index" class="btn btn-warning text-white"><i class="fa fa-arrow-left"></i> Voltar</a>
+
+        @if (Model.StatusVenda == Domain.Models.StatusVenda.Aberta || Model.StatusVenda == Domain.Models.StatusVenda.Cancelada)
+        {
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Cancelar Compra</a>
+        }
+    </div>
+</div>
+
+        <script>
+            function Atualizar(idItemVenda, idProduto, Quantidade, Preco, VendaId){
+
+        var comp = "input[name='item-" + idProduto + "']";
+
+        var novaQuantidade = $(comp).val();
+
+        var url = '@Url.Action("ItemUpdate", "Pedidos")';
+
+        var json = {
+            id: idItemVenda,
+            produtoid: idProduto,
+            Quantidade: novaQuantidade,
+            ValorUnidade: Preco,
+            VendaId: VendaId
+        }
+
+        var retorno = EnviarAjax(url, json, "Item atualizado com sucesso!");
+    };
+
+    function Excluir(idItem, vendaId){
+        if (confirm("Você deseja realmente excluir este item?")) {
+            EnviarAjax('@Url.Action("ItemDelete","Pedidos")', { id: idItem, VendaId: vendaId }, "Item removido com sucesso!");
+            $("#linha-" + idItem).remove();
+        }
+    }
+
+    function EnviarAjax(url, objeto, mensagem) {
+        $.post(url, objeto, function (result) {
+            if (result != false) {
+                $("#valorTotal").html("R$ " + result);
+            } else {
+                alert("Houve um erro na solicitação");
+            }
+        }).done(function () {
+            alert(mensagem);
+        });
+    }
+
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                var _doc = $(document).height();
+                var _win = $(window).height();
+
+                if (_doc > _win) {
+                    $(".fill-content").css("height", "auto");
+                }
+            });
+        </script>

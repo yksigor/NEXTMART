@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Domain.Models.Item>
+
+<table class="table">
+    @*<thead>
+        <tr>
+            <th>
+                Imagem
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                Valor Unitário
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>*@
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="linha-@item.Id">
+                <td class="carrinho-img">
+                    <img src="@item.Produto.ImagensProduto.First().UrlImagem" alt="" class="img-edit-prod" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    <input name="item-@item.Produto.Id" value="@item.Quantidade" class="form-control input-limit" type="number" min="1"/>
+                </td>
+                <td>
+                    R$ @Html.DisplayFor(modelItem => item.Produto.Preco)
+                </td>
+                <td>
+                    <div class="btn btn-group">
+                        <a href="#1" onclick="Atualizar(@item.Id, @item.ProdutoId, @item.Quantidade, @item.Produto.Preco, @item.VendaId)" class="btn btn-primary"><i class="fa fa-save"></i></a>
+                        <a href="#2" onclick="Excluir(@item.Id, @item.VendaId)" class="btn btn-danger"><i class="fa fa-remove"></i> </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

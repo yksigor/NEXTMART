@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Domain.Models.Item>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                Valor Unitário
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="carrinho-img">
+                    <img src="@item.Produto.ImagensProduto.First().UrlImagem" alt="" class="img-edit-prod" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    R$ @Html.DisplayFor(modelItem => item.Produto.Preco)
+                </td>
+                <td>
+                    <div class="btn btn-group">
+                        <a asp-action="EditarItem" asp-controller="Carrinho" asp-route-id="@item.ProdutoId" class="btn btn-dark"><i class="fa fa-edit"></i></a>
+                        <a asp-action="RemoverItem" asp-controller="Carrinho" asp-route-idProduto="@item.ProdutoId" class="btn btn-danger"><i class="fa fa-remove"></i> </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    double total = 0.00;
+    foreach (var item in Model)
+    {
+        total += item.Produto.Preco * item.Quantidade;
+    }
+<div class="col-sm-3 mb-3 carrinho-box">
+    <h3>Valor Total:</h3>
+    <hr />
+    <h4>R$ @total</h4>
+</div>
+}

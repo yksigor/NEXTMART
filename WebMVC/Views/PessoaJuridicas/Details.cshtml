@@ -1,0 +1,102 @@
+﻿@model Domain.Models.PessoaJuridica
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-box1 container fill-content">
+    <div class="details-bigbox">
+        <h1>Informações</h1>
+        <div class="col-md-12 details-box">
+            <div class="col-md-6">
+                <h4>Perfil</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4 pb-1">
+                        <strong>CNPJ:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Cnpj)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Razão Social:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.RazaoSocial)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Nome Fantasia:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.NomeFantasia)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Segmento:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Segmento)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>E-mail:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Usuario.Email)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Endereço</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>Lougradouro:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.Logradouro)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Número:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.Numero)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Complemento:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.Complemento)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Bairro:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.Bairro)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>Município:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.Municipio)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>UF:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.UF)
+                    </div>
+                    <div class="col-sm-4 pb-1">
+                        <strong>CEP:</strong>
+                    </div>
+                    <div class="col-sm-8 pb-1">
+                        @Html.DisplayFor(model => model.Endereco.CEP)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <a asp-action="Edit" class="btn  btn-primary"><i class="fa fa-edit"></i>Editar</a>
+            <a asp-action="Index" asp-controller="VitrineLoja" class="btn btn-danger"><i class="fa fa-arrow-left"></i> Voltar</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Domain.Models.Venda>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Consumidor</th>
+            <th>Data da Venda</th>
+            <th>Lucro do Sistema</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var lucro = item.GetLucroSistema();
+            if (item.StatusVenda == Domain.Models.StatusVenda.Concluida)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataVenda)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => lucro) R$
+                    </td>
+                    <td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<label>
+    Valor somado total de todas as compras compradas e todas as vendas vendidas:
+    @Model.Sum(m => m.StatusVenda == Domain.Models.StatusVenda.Concluida ? m.GetLucroSistema() : 0) R$
+</label>

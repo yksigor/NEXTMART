@@ -1,0 +1,66 @@
+﻿@model Domain.Models.Usuario
+
+@{
+    Layout = null;
+}
+
+<h1>Usuário</h1>
+
+
+@if (ViewBag.Status == "Ativo")
+{
+    <h3>Tens certeza que queres desativar este registro?</h3>
+}
+else
+{
+    <h3>Tens certeza que queres ativar este registro?</h3>
+}
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Usuário:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class="col-sm-3">
+            Email:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-3">
+            Senha:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt class="col-sm-3">
+            Tipo do Usuário:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TipoUsuario)
+        </dd>
+    </dl>
+
+    @if (ViewBag.Status == "Ativo")
+    {
+        <form asp-action="EditarStatusAtivo">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Desativar" class="btn btn-danger" />
+            <a data-dismiss="modal" class="btn btn-primary text-white">Voltar</a>
+        </form>
+    }
+    else
+    {
+        <form asp-action="EditarStatusInativo">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Ativar" class="btn btn-success" />
+            <a data-dismiss="modal" class="btn btn-primary text-white">Voltar</a>
+        </form>
+    }
+
+
+</div>

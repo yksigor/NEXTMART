@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossNextMart.Perfil" Title="NextMart" >
+
+    <ContentPage.Resources>
+        <Style TargetType="Button">
+            <Setter Property="TextColor" Value="#fff" />
+            <Setter Property="BackgroundColor" Value="#007bff" />
+            <Setter Property="BorderRadius" Value="23" />
+            <Setter Property="BorderColor" Value="#007bff"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="BorderWidth" Value="2"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+        </Style>
+
+        <Style x:Key="headerLabel" TargetType="Label">
+            <Setter Property="Margin" Value="0, 2" />
+            <Setter Property="TextColor" Value="Gray" />
+        </Style>
+        
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  Text="Sair" Clicked="BtnSair_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="Android, UWP" Value="exit.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Image Source="login.png" 
+                   WidthRequest="40" 
+                   HeightRequest="40"/>
+            <Label FontSize="25" HorizontalOptions="CenterAndExpand" Text="Perfil" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+
+    <ContentPage.Content>
+
+        <StackLayout Spacing="0">
+            <Grid BackgroundColor="#E6E6FA" HeightRequest="175" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Column="0 " Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Image Source="usuario.png" WidthRequest="190"/>
+                </StackLayout>
+                <StackLayout Grid.Column="1" Grid.Row="0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <Label HorizontalTextAlignment="Center" TextColor="Black" FontSize="17" x:Name="Nome"></Label>
+                </StackLayout>
+            </Grid>
+
+            <Grid Padding="20" BackgroundColor="White" HeightRequest="150">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                    <Label Text="Idade: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Idade"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                    <Label Text="End.: " Style="{StaticResource headerLabel}"/>
+                    <Label  x:Name="Endereco"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                    <Label Text="Sexo: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Sexo"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                    <Label Text="Número: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Numero"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
+                    <Label Text="Bairro: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Bairro"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+                    <Label Text="Município: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Municipio"></Label>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="3">
+                    <Label Text="UF: " Style="{StaticResource headerLabel}"/>
+                    <Label x:Name="Uf"></Label>
+                </StackLayout>
+            </Grid>
+            <StackLayout Padding="45">
+                <Button Text="Meus Pedidos" Clicked="BtnPedidos"/>
+            </StackLayout>
+           
+          
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

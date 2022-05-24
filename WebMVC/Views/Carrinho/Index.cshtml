@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Domain.Models.Item>
+
+@{
+    ViewData["Title"] = "Carrinho";
+}
+<div class="details-bigbox container fill-content">
+    <h1><i class="fa fa-shopping-cart"></i> Carrinho</h1>
+
+    @{
+        if (Model.Count() > 0)
+        {
+            <partial name="_Itens" model="@Model" />
+            <a asp-action="Finalizar" asp-controller="Carrinho" class="btn btn-success"><i class="fa fa-dollar"></i> Comprar</a>
+            <a asp-action="Remover" asp-controller="Carrinho" class="btn btn-danger"><i class="fa fa-trash"></i> Excluir Carrinho</a>
+            <a asp-action="Index" asp-controller="VitrineLoja" class="btn btn-secondary"><i class="fa fa-shopping-cart"></i> Continuar Comprando</a>
+        }
+        else
+        {
+            <hr />
+            <div class="alert alert-danger" role="alert">
+                Você ainda não possui nenhum ítem no carrinho!
+            </div>
+        }
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        var _doc = $(document).height();
+        var _win = $(window).height();
+
+        if (_doc > _win) {
+            $(".fill-content").css("height", "auto");
+        }
+    });
+</script>

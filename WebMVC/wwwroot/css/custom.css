@@ -1,0 +1,14 @@
+﻿body .modal-content {
+    width: 80%;
+    height: 40%;
+    padding: 15px 0 15px 15px;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #fff;
+    background-color: #545b62 !important;
+}
+
+.ss-a li a{
+    color: #f1f1f1 !important;
+}

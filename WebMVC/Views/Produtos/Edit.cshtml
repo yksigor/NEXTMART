@@ -1,0 +1,157 @@
+﻿@model WebMVC.Models.ProdutosViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="details-bigbox container fill-content">
+    <h1>Editar Produto</h1>
+    <hr />
+    <div class="row">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
+            <div class="col-sm-12 edit-prod">
+                <div class="col-sm-6">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Produto.Id" />
+                    <input type="hidden" asp-for="Produto.IdComerciante" />
+                    <div class="form-group">
+                        <label asp-for="Produto.IdCategoria" class="control-label"></label>
+                        <select asp-for="Produto.IdCategoria" class="form-control" asp-items="@(new SelectList(Model.DropDownCategorias,nameof(Model.Produto.Categoria.Id),nameof(Model.Produto.Categoria.Nome)))">
+                            <option selected="selected" value=""></option>
+                        </select>
+                        <span asp-validation-for="Produto.IdCategoria" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Produto.Nome" class="control-label"></label>
+                        <input asp-for="Produto.Nome" class="form-control" />
+                        <span asp-validation-for="Produto.Nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Produto.Marca" class="control-label"></label>
+                        <input asp-for="Produto.Marca" class="form-control" />
+                        <span asp-validation-for="Produto.Marca" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Produto.Descricao" class="control-label"></label>
+                        <textarea asp-for="Produto.Descricao" class="form-control"></textarea>
+                        <span asp-validation-for="Produto.Descricao" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Produto.Preco" class="control-label"></label>
+                        <input asp-for="Produto.Preco" class="form-control" />
+                        <span asp-validation-for="Produto.Preco" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Produto.QuantidadeEstoque" class="control-label"></label>
+                        <input asp-for="Produto.QuantidadeEstoque" class="form-control" />
+                        <span asp-validation-for="Produto.QuantidadeEstoque" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-warning text-white">Voltar</a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div>
+                        <!-- Start Banner -->
+                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="false">
+                            <ol class="carousel-indicators">
+                                @{
+                                    var count = 0;
+                                    foreach (var imagem in Model.Produto.ImagensProduto)
+                                    {
+                                        <li data-target="#carouselExampleIndicators" data-slide-to="@count" class="active"></li>
+                                        count++;
+                                    }
+                                }
+                            </ol>
+                            <div class="carousel-inner">
+                                @{
+                                    count = 0;
+                                    foreach (var imagem in Model.Produto.ImagensProduto)
+                                    {
+                                        string classe;
+                                        @if (count == 0) { classe = "active"; }
+                                        else { classe = ""; }
+                                        <div class="carousel-item @classe">
+                                            <a class="example-image-link" href="@imagem.UrlImagem" data-lightbox="@imagem.NomeImagem" data-title="@imagem.NomeImagem">
+                                                <img class="d-block w-100" src="@imagem.UrlImagem" alt="@imagem.NomeImagem">
+                                            </a>
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <a onclick="removerImagem(@imagem.Id)" class="btn btn-lg btn-danger"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                        count++;
+                                    }
+                                }
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Produto.ImagensProduto" class="control-label"></label>
+                                <div id="imagens"></div>
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                        <input type="file" id="arquivo" name="arquivos" class="custom-file-input" aria-describedby="inputGroupFileAddon01" multiple />
+                                        <label class="custom-file-label" for="arquivo">Escolha as imagens</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        <!-- End Banner -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function uploadImagem() {
+        var files = $("#arquivo").get(0).files;
+
+        var data = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            data.append(files[i].name, files[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "../api/files/upload",
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (message) {
+                $.each(message, function (key, value) {
+                    $("#imagens").append.html(value);
+                });
+            },
+            error: function () {
+                alert("Ocorreu um erro");
+            }
+        });
+    }
+
+    function removerImagem(id) {
+        $.ajax({
+            type: "GET",
+            url: "/Produtos/RemoverImagem/" + id,
+            success: function (message) {
+                location.reload();
+            },
+            error: function () {
+                alert("Ocorreu um erro");
+            }
+        });
+    }
+
+</script>

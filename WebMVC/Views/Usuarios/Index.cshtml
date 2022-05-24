@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Domain.Models.Usuario>
+
+@{
+    Layout = null;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Usuário
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Senha
+            </th>
+            <th>
+                Tipo do Usuário
+            </th>
+            <th style="color:darkgreen">
+                Opções
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoUsuario)
+                </td>
+                <td class="btn-group">
+                    <a asp-action="Delete" data-target="#modal-container" data-toggle="modal" asp-route-id="@item.Id" class="btn btn-warning"><i class="fa fa-star"></i> Alterar Status</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

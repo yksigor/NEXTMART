@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .container {
+        margin: 0px;
+        max-width: none;
+        padding: 0px;
+    }
+</style>
+
+<script src="~/js/jquery.min.js"></script>
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AkksAyBpL2OkptZbtBkag4J9ldKYaChgblKAnx14klhILTGsboInhXJAhSNSxW1l&callback=loadMapScenario' async defer></script>
+
+<div id="lojasMap" style="height: 100vh; width: 100%; margin-top:-70px; z-index:1">
+
+</div>
+
+<div id="lojaBox" class="lojas-box" hidden>
+    <div class="lojas-box-inside">
+        <h1 id="lojaNome" hidden></h1>
+        <hr />
+
+        <h3 id="lojaSeg" hidden></h3>
+
+        <div class="lojas-info">
+            <i class="fa fa-map-marker"></i> <p id="lojaEnd" hidden></p>
+        </div>
+
+        <div class="lojas-info">
+            <i class="fa fa-phone"></i> <p id="lojaTel" hidden></p>
+        </div>
+
+        <div id="lojaVer"></div>
+
+        <hr />
+
+        <div id="prodNome">
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<script type='text/javascript'>
+    function loadMapScenario() {
+        var map = new Microsoft.Maps.Map(document.getElementById('lojasMap'), {});
+
+        Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetLojas", "Lojas")',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (listaString) {
+                    $.each(listaString, function (index, idLoja) {
+                        AjaxMap(map, idLoja);
+                    });
+                }
+            });
+
+        });
+
+        Microsoft.Maps.Events.addHandler(map, 'click', function (args) {
+            FecharPopup();
+        });
+    }
+    function Loja(idLoja, pin, nomeUF) {
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetInfo", "Lojas")',
+                contentType: "application/json; charset=utf-8",
+                data: { idLojas: idLoja },
+                dataType: "json",
+            success: function (pessoaJuridica) {
+                    $("#lojaBox").removeAttr("hidden", true);
+                $("#lojaNome").removeAttr("hidden");
+                $("#lojaEnd").removeAttr("hidden");
+                $("#lojaTel").removeAttr("hidden");
+                $("#lojaSeg").removeAttr("hidden");
+                $("#lojaVer").removeAttr("hidden");
+
+                $("#lojaNome").html(pessoaJuridica.nomeFantasia);
+                $("#lojaEnd").html(pessoaJuridica.endereco.logradouro + ', ' + pessoaJuridica.endereco.numero + ' - ' + pessoaJuridica.endereco.bairro + ' - ' + pessoaJuridica.endereco.municipio + '.');
+                $("#lojaTel").html(pessoaJuridica.telefone);
+                $("#lojaSeg").html(pessoaJuridica.segmento);
+                $("#lojaVer").html("<a href='@Url.Action("IndexByIdComerciante", "VitrineLoja")/" + pessoaJuridica.id + "' class='btn btn-primary'><i class='fa fa-eye'></i> Ver</a>");
+
+                GetProdutos(idLoja, pin);
+            }
+        });
+    }
+
+    function GetProdutos(idLoja, pin) {
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetProdutos", "Lojas")',
+                contentType: "application/json; charset=utf-8",
+                data: { idLojas: idLoja },
+                dataType: "json",
+            success: function (GetProdutos) {
+                $("#lojaBox").removeAttr("hidden", true);
+                $("#prodNome").removeAttr("hidden");
+                $("#prodNome").html("");
+                GetProdutos.forEach(function (produto) {
+                    console.log(produto.nome);
+                    $("#prodNome").append("<div class='item owl-categoria mb-2'><a href='@Url.Action("IndexByIdCategoria", "VitrineLoja")/"+produto.id+"' class='text-white'><h4>"+produto.nome+"</h4></a></div>");
+                });
+                }
+        });
+    }
+
+    function FecharPopup() {
+        $("#lojaBox").attr("hidden", true);
+        $("#lojaNome").attr("hidden", true);
+        $("#lojaEnd").attr("hidden", true);
+        $("#lojaTel").attr("hidden", true);
+        $("#lojaSeg").attr("hidden", true);
+        $("#lojaVer").attr("hidden", true);
+    }
+
+    function AjaxMap(map, idLoja) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetEnderecos", "Lojas")',
+            contentType: "application/json; charset=utf-8",
+            data: { idLojas: idLoja },
+                dataType: "json",
+                success: function (listaEnderecos) {
+                    $.each(listaEnderecos, function (index, pin) {
+                        CriarPin(pin, map, idLoja);
+                    });
+                }
+        });
+    }
+
+    function CriarPin(pin, map, idLoja) {
+        var pins = [];
+        var searchManager = new Microsoft.Maps.Search.SearchManager(map);
+        var requestOptions = {
+            bounds: map.getBounds(),
+            where: pin,
+            callback: function (answer) {
+                map.setView(map.getCenter());
+                var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), {
+                    icon: '/img/store-icon.png',
+                    anchor: new Microsoft.Maps.Point(12, 39)});
+                pushpin.setLocation(answer.results[0].location);
+                map.entities.push(pushpin);
+                Microsoft.Maps.Events.addHandler(pushpin, 'click', function (args) {
+                    Loja(idLoja, pin);
+                });
+            }
+        };
+        pins = requestOptions;
+        searchManager.geocode(pins);
+    }
+</script>

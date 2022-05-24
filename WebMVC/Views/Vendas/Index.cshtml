@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Domain.Models.Item>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Itens Vendidos";
+}
+
+<h1>Itens Vendidos</h1>
+
+<div class="container fill-content">
+    <table class="table">
+        <thead>
+            <tr>
+            
+                <th>
+                    @Html.DisplayNameFor(model => model.Produto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantidade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorUnidade)
+                </th>
+                <th>
+                    Valor Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorUnidade)
+                </td>
+                <td>
+                    @item.ValorTotal()
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,30 @@
+﻿@model Domain.Models.PessoaJuridica
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Carteira";
+}
+
+
+<div class="container fill-content">
+    <h1>Carteira</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Carteira">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Saldo" class="control-label"></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" id="btnGroupAddon2">R$</div>
+                        </div>
+                        <input asp-for="Saldo" class="form-control" disabled />
+                    </div>
+                    <span asp-validation-for="Saldo" class="text-danger"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

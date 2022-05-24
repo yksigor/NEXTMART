@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Domain.Models.Venda>
+
+<script src="~/js/callModal.js"></script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Consumidor
+            </th>
+            <th>
+                Data da Venda
+            </th>
+            <th>
+                Status
+            </th>
+            <th style="color:darkgreen">
+                Opções
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataVenda)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusVenda)
+            </td>
+            @if (item.StatusVenda.ToString() == "Concluida")
+            {
+                <td>
+                    <button data-toggle="modal" class="btn btn-danger" disabled><i class="fa fa-trash"></i> Deletar</button>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="DeleteVenda" data-target="#modal-container" data-toggle="modal" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Deletar</a>
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>

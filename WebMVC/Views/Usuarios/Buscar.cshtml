@@ -1,0 +1,43 @@
+﻿@model Domain.Models.Usuario
+
+@{
+    ViewData["Title"] = "Teste";
+}
+
+<h1>Buscando Usuários</h1>
+<input asp-for="Username" class="form-control" placeholder="Digite o nome do usuário" aria-label="Digite o nome do usuário" aria-describedby="basic-addon2">
+
+ 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tabela"></tbody>
+</table>
+
+<script>
+    $("#Username").keyup(function () {
+        var usuario = new Object();
+        usuario.Username = $("#Username").val();
+        $("#tabela").empty();
+
+        $.post('@Url.Action("BuscarPorNome")', usuario, function (data) {
+            $.each(data, function (index, valor)
+            {
+                $("#tabela").append("<tr><td>" + valor.username +
+                    "</td><td>" + valor.email + "</td><td>" + valor.password + "</td></tr>");
+                //console.log(index, valor);
+            })
+        });
+    });
+</script>

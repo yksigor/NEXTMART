@@ -1,0 +1,162 @@
+﻿@model Domain.Models.PessoaFisica
+
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nextmart Inc.&reg; Tudo o que você precisa, simples e rápido!</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/style.css" />
+</head>
+<body class="big-background6">
+    <div class="white-bar">
+        <h4>Editar Pessoa Fisica</h4>
+        <hr />
+    </div>
+    <div class="row center-box2">
+        <div class="col-md-6 center-form form-box">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.HiddenFor(model => model.Usuario.Email)
+                @Html.HiddenFor(model => model.Usuario.Username)
+                @Html.HiddenFor(model => model.Usuario.Password)
+                @Html.HiddenFor(model => model.Usuario.TipoUsuario)
+                @Html.HiddenFor(model => model.Usuario.RepitaPassword)
+                <dl class="row">
+                    <dt class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Usuario.Username):
+                    </dt>
+                    <dd class="col-md-3">
+                        @Html.DisplayFor(model => model.Usuario.Username)
+                    </dd>
+
+                    <dt class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Usuario.Email):
+                    </dt>
+                    <dd class="col-md-2">
+                        @Html.DisplayFor(model => model.Usuario.Email)
+                    </dd>
+
+                    <dt class="col-md-2">
+                        @Html.DisplayNameFor(model => model.Saldo):
+                    </dt>
+                    <dd class="col-md-1">
+                        @Html.DisplayFor(model => model.Saldo)
+                    </dd>
+                </dl>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IdEndereco" />
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Cpf" class="control-label"></label>
+                        <input asp-for="Cpf" class="form-control" type="number" />
+                        <span asp-validation-for="Cpf" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label asp-for="NomeCompleto" class="control-label"></label>
+                        <input asp-for="NomeCompleto" class="form-control" />
+                        <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="DataNascimento" class="control-label"></label>
+                        <input asp-for="DataNascimento" class="form-control" />
+                        <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Sexo" class="control-label"></label>
+                        <select asp-for="Sexo" class="form-control" asp-items="new SelectList(Model.GetSexos())">
+                            <option selected>Escolha...</option>
+                        </select>
+                        <span asp-validation-for="Sexo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Telefone" class="control-label"></label>
+                        <input asp-for="Telefone" class="form-control" />
+                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label asp-for="Endereco.CEP" class="control-label"></label>
+                        <input asp-for="Endereco.CEP" class="form-control" onblur="buscarCEP()" />
+                        <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label asp-for="Endereco.Logradouro" class="control-label"></label>
+                        <input asp-for="Endereco.Logradouro" class="form-control" />
+                        <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="Endereco.Numero" class="control-label"></label>
+                        <input asp-for="Endereco.Numero" class="form-control" />
+                        <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Endereco.Complemento" class="control-label"></label>
+                        <input asp-for="Endereco.Complemento" class="form-control" />
+                        <span asp-validation-for="Endereco.Complemento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Endereco.Bairro" class="control-label"></label>
+                        <input asp-for="Endereco.Bairro" class="form-control" />
+                        <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Endereco.Municipio" class="control-label"></label>
+                        <input asp-for="Endereco.Municipio" class="form-control" />
+                        <span asp-validation-for="Endereco.Municipio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="Endereco.UF" class="control-label"></label>
+                        <select asp-for="Endereco.UF" class="form-control" asp-items="new SelectList(Model.Endereco.GetUFs())">
+                            <option selected="selected" value=""></option>
+                        </select>
+                        <span asp-validation-for="Endereco.UF" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <input type="submit" value="Editar" id="btnSend" class="btn btn-primary" />
+                        <a asp-action="Index" asp-controller="VitrineLoja" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    function buscarCEP() {
+        $.ajax({
+            url: '@Url.Action("BuscarCEP","Correios")',
+            type: "GET",
+            contentType: "application/json",
+            data: { zipCode: $("#Endereco_CEP").val() },
+            success: function (result) {
+                if (result) {
+                    $("#Endereco_Logradouro").val(result.logradouro);
+                    $("#Endereco_Municipio").val(result.localidade);
+                    $("#Endereco_UF").val(result.uf);
+                    $("#Endereco_Bairro").val(result.bairro);
+                    $("#Endereco_CEP").removeClass("is-invalid");
+                } else {
+                    $("#Endereco_CEP").addClass("is-invalid");
+                }
+            },
+            error: function (xhr, exception) {
+                alert("Erro ao buscar CEP!")
+            }
+        });
+    };
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+﻿@model Domain.Models.Item
+
+<div class="container my-2 fill-content">
+    <div class="row">
+        <div class="col-sm">
+            <h1><span class="badge badge-info">@Model.Produto.Marca</span> @Model.Produto.Nome</h1>
+            <h4><a asp-action="IndexByIdComerciante" asp-controller="VitrineLoja" asp-route-id="@Model.Produto.Comerciante.Id">@Model.Produto.Comerciante.NomeFantasia</a> | @Model.Produto.Categoria.Nome</h4>
+            <hr />
+        </div>
+
+    </div>
+    <div class="row mt-2">
+        <div class="col-sm-6">
+            <div>
+                <!-- Start Banner -->
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="false">
+                    <ol class="carousel-indicators">
+                        @{
+                            var count = 0;
+                            foreach (var imagem in Model.Produto.ImagensProduto)
+                            {
+                                <li data-target="#carouselExampleIndicators" data-slide-to="@count" class="active"></li>
+                                count++;
+                            }
+                        }
+                    </ol>
+                    <div class="carousel-inner">
+                        @{
+                            count = 0;
+                            foreach (var imagem in Model.Produto.ImagensProduto)
+                            {
+                                string classe;
+                                @if (count == 0) { classe = "active"; }
+                                else { classe = ""; }
+                                <div class="carousel-item @classe">
+                                    <a class="example-image-link" href="@imagem.UrlImagem" data-lightbox="@imagem.NomeImagem" data-title="@imagem.NomeImagem">
+                                        <img class="d-block w-100" src="@imagem.UrlImagem" alt="@imagem.NomeImagem">
+                                    </a>
+                                </div>
+                                count++;
+                            }
+                        }
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <!-- End Banner -->
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <h3>R$ @Model.Produto.Preco</h3>
+            <hr />
+            <h6>Quantidade em Estoque: @Model.Produto.QuantidadeEstoque</h6>
+        </div>
+        <div class="col-sm-3">
+            <div class="add-carrinho-box">
+                <form>
+                    <div class="form-group col-sm-8">
+                        <label class="col-form-label">Quantidade:</label>
+                        <input id="Quantidade" asp-for="Quantidade" class="form-control" type="number" min="1" onchange="BlockBuy()" />
+                    </div>
+                </form>
+                @*<a asp-action="Index" asp-controller="Carrinho" id="Adicionar" class="btn btn-lg btn-success text-white" ><i class="fa fa-shopping-cart"></i> Adicionar ao Carrinho</a>*@
+                <button class="btn btn-lg btn-success text-white" id="Adicionar"><i class="fa fa-shopping-cart"></i> Confirmar</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="desc-produto">
+                <label asp-for="Produto.Descricao"></label>
+                <hr />
+                <h2>@Model.Produto.Descricao</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ItemCarrinho(IdProduto, Quantidade, Valor) {
+        this.IdProduto = IdProduto;
+        this.Quantidade = Quantidade;
+        this.Valor = Valor;
+    }
+    $("#Adicionar").click(function () {
+        var item = new ItemCarrinho(@Model.Produto.Id, $("#Quantidade").val(),@Model.Produto.Preco);
+
+        $.ajax({
+            method: "POST",
+            url: '@Url.Action("EditItem", "Carrinho")',
+            data: { item }
+        })
+            .done(function (data) {
+                //console.log(data);
+                window.location.href = "@Url.Action("Index", "Carrinho")";
+        });
+
+    });
+</script>
+<script>
+    function BlockBuy() {
+        if (@Model.Produto.QuantidadeEstoque< ($("#Quantidade").val())) {
+            $("#Adicionar").attr("disabled", "true");
+            $("#Adicionar").addClass("blockbuy");
+        } else {
+            $(".blockbuy").removeAttr("disabled");
+        }
+    }
+</script>

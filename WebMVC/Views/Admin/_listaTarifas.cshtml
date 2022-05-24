@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Domain.Models.Tarifa>
+
+<script src="~/js/callModal.js"></script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome
+            </th>
+            <th>
+                Porcentagem
+            </th>
+            <th>
+                Valor Máximo
+            </th>
+            <th style="color:darkgreen">
+                Opções
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Porcentagem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ValorMaximo)
+                </td>
+                <td class="btn-group">
+                    <a asp-action="Edit" data-target="#modal-container" data-toggle="modal" asp-route-id="@item.Id" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar</a>
+                    <a asp-action="Delete" data-target="#modal-container" data-toggle="modal" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="CadastroTarifa" data-target="#modal-container" data-toggle="modal" class="btn btn-success"><i class="fa fa-plus"></i> Nova Tarifa</a>
+</div>

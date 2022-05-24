@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossNextMart.Pedidos"
+            BackgroundColor="White">
+    
+    <ContentPage.ToolbarItems >
+        <ToolbarItem  Text="Sair" Clicked="BtnSair_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="Android, UWP" Value="exit.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <Style TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="Azure" />
+            <Setter Property="BorderColor" Value="Black" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="CornerRadius" Value="13" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0, 2" />
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style x:Key="headerLabel" TargetType="Label">
+            <Setter Property="Margin" Value="0, 2" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Text" Value="Detalhes" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="Green" />
+            <Setter Property="BorderRadius" Value="18" />
+        </Style>
+    </ContentPage.Resources>
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Image Source="login.png" 
+                   WidthRequest="40" 
+                   HeightRequest="40"/>
+            <Label FontSize="25" HorizontalOptions="CenterAndExpand" Text="Pedidos" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
+    <StackLayout Padding="25">
+        <ListView  x:Name="listView" RowHeight="200" SeparatorColor="Transparent" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame WidthRequest="200"
+                            HeightRequest="280">
+                            <FlexLayout Direction="Column">
+                                <Label Text="{Binding Id}"
+                                    Style="{StaticResource headerLabel}" HorizontalTextAlignment="Center"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Style="{StaticResource headerLabel}" Text="Data:" />
+                                    <Label Text="{Binding Data}" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Style="{StaticResource headerLabel}" Text="Loja:" />
+                                    <Label Text="{Binding Comerciante}" HorizontalTextAlignment="End" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Style="{StaticResource headerLabel}" Text="Status:"/>
+                                    <Label Text="{Binding Status}" />
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Style="{StaticResource headerLabel}" Text="Preço total da compra:"/>
+                                    <Label Text="{Binding Total}"/>
+                                </StackLayout>
+                            </FlexLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+
+</ContentPage>

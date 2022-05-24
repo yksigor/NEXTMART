@@ -1,0 +1,246 @@
+﻿@model WebMVC.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "CriarNovo";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+
+<label asp-for="Usuario.TipoUsuario" class="control-label"></label>
+<select class="form-control" id="tipoUser" asp-items="@new SelectList(Model.ListaTipos)" onchange="MostrarFormulario()">
+    <option selected="selected" value=""></option>
+</select>
+
+<div id="formUser" hidden>
+    <partial name="_FormUsuario" model="@Model.Usuario" />
+    <div id="formPF" hidden>
+        <partial name="_FormPF" model="@Model" />
+    </div>
+    <div id="formPJ" hidden>
+        <partial name="_FormPJ" model="@Model" />
+    </div>
+    <partial name="_FormEndereco" model="@Model.Endereco" />
+    <button class="btn btn-success" id="cadastrar"><i class="fa fa-save"></i> Cadastrar</button>
+    <button class="btn btn-danger" id="voltar"><i class="fa fa-home"></i> Home</button>
+</div>
+
+<script src="~/js/classes.js"></script>
+<script type="text/javascript">
+    function MostrarFormulario()
+    {
+        switch ($("#tipoUser").val()) {
+            case "Comerciante":
+                habilitarPJ();
+                break;
+            case "Consumidor":
+                habilitarPF();
+                break;
+            case "Entregador":
+                habilitarPF();
+                break;
+            default: ocultarTodos();
+        }
+        $("input").removeClass("is-invalid");
+        $("select").removeClass("is-invalid");
+    }
+    function habilitarPJ()
+    {
+        $("#formUser").removeAttr("hidden", true);
+        $("#formPJ").removeAttr("hidden");
+        $("#formPF").attr("hidden", true);
+    }
+    function habilitarPF() {
+        $("#formUser").removeAttr("hidden", true);
+        $("#formPF").removeAttr("hidden");
+        $("#formPJ").attr("hidden", true);
+    }
+
+    function TipoUsuario(tipo) {
+        switch (tipo) {
+            case "Comerciante":
+                return "PJ";
+                break;
+            case "Consumidor":
+                return "PF";
+                break;
+            case "Entregador":
+                return "PF";
+                break;
+        }
+    }
+
+    function ocultarTodos() {
+        $("#formUser").attr("hidden", true);
+    }
+
+    $("#voltar").click(function () {
+        window.location.href = '@Url.Action("Index","VitrineLoja")';
+    });
+
+    $("#cadastrar").click(function () {
+        var user = ["Username", "Password", "Email", "RepitaPassword","CEP", "Municipio", "UF", "Logradouro", "Numero", "Bairro"];
+        var pf = ["PessoaFisica_Cpf", "PessoaFisica_NomeCompleto", "PessoaFisica_DataNascimento", "PessoaFisica_Telefone", "PessoaFisica_Sexo"];
+        var pj = ["PessoaJuridica_Cnpj", "PessoaJuridica_RazaoSocial", "PessoaJuridica_NomeFantasia", "PessoaJuridica_Segmento","PessoaJuridica_Telefone"];
+
+        var erros = 0;
+
+        var senha1 = $("#RepitaPassword").val();
+        var senha2 = $("#Password").val();
+
+        erros += ValidaCampos(user);
+        var tipo = TipoUsuario($("#tipoUser").val());
+
+
+        if (senha1 != senha2) {
+            alert("As senhas são diferentes");
+            return;
+        } else {
+            if (tipo == "PF") {
+                erros += ValidaCampos(pf);
+            } else {
+                erros += ValidaCampos(pj);
+            }
+
+            if (erros > 0) {
+                alert("Contém erros");
+            } else {
+                AjaxEnviar(tipo);
+            }
+        }
+    });
+
+    function AjaxEnviar(tipo) {
+        var url;
+        var pessoa;
+
+        var usuario = new Usuario($("#Username").val(), $("#Password").val(), $("#Email").val(), $("#RepitaPassword").val(), $("#tipoUser").val());
+        var endereco = new Endereco($("#CEP").val(), $("#Municipio").val(), $("#UF").val(), $("#Logradouro").val(), $("#Numero").val(), $("#Bairro").val());
+
+        if (tipo == "PF") {
+            url = '@Url.Action("Cadastrar","PessoaFisicas")';
+            pessoa = new PessoaFisica($("#PessoaFisica_Cpf").val(), $("#PessoaFisica_NomeCompleto").val(), $("#PessoaFisica_DataNascimento").val(), $("#PessoaFisica_Sexo").val(), $("#PessoaFisica_Telefone").val());
+            pessoa.Usuario = usuario;
+            pessoa.Endereco = endereco;
+        } else {
+            url = '@Url.Action("Cadastrar","PessoaJuridicas")';
+            pessoa = new PessoaJuridica($("#PessoaJuridica_Cnpj").val(), $("#PessoaJuridica_RazaoSocial").val(), $("#PessoaJuridica_NomeFantasia").val(), $("#PessoaJuridica_Segmento").val(), $("#PessoaJuridica_Telefone").val());
+            pessoa.Usuario = usuario;
+            pessoa.Endereco = endereco;
+        }
+
+        $.post(url, pessoa, function (data) {
+            switch (data.tipoUsuario) {
+                case 0: // Consumidor
+                    window.location.href = '@Url.Action("Index","VitrineLoja")';
+                    break;
+                case 1: // Comerciante
+                    window.location.href = '@Url.Action("Index","VitrineLoja")';
+                    break;
+                case 2: // Entregador
+                    window.location.href = '@Url.Action("Index","VitrineLoja")';
+                    break;
+                case 3: // Administrador
+                    window.location.href = '@Url.Action("Index","VitrineLoja")';
+                    break;
+                default:
+                    alert("Resulado inesperado...");
+            }
+        }).done(function () {
+            //alert("Funcionou!");
+        }).fail(function () {
+            alert("Falhou!");
+        }).always(function () {
+            //alert("Acabou");
+        });
+    }
+
+    function ValidaCampos(campos) {
+        var erros = 0;
+
+        for (var i = 0; i < campos.length; i++) {
+            if ($("#" + campos[i]).val() == "") {
+                $("#" + campos[i]).addClass("is-invalid");
+                erros++;
+            } else {
+                $("#" + campos[i]).removeClass("is-invalid");
+            }
+        }
+
+        return erros;
+    }
+
+    function buscarUsuario()
+    {
+        var _username = $("#Username").val();
+        $.ajax({
+            url: '@Url.Action("BuscarUsuario", "PessoaFisicas")',
+            type: 'GET',
+            contentType: "application/json",
+            data: { Username: _username },
+            success: function (result) {
+                if (result.value == null) {
+                    $("#Username").removeClass("is-invalid");
+                    $("#Username").addClass("is-valid");
+                    $("#cadastrar").removeAttr("disabled");
+                } else {
+                    $("#Username").removeClass("is-valid");
+                    $("#Username").addClass("is-invalid");
+                    $("#userInvalido").html(result.value);
+                    $("#cadastrar").attr("disabled", true);
+                }
+            },
+            error: function (xhr, exception) {
+                alert("Erro ao buscar Usuário")
+            }
+        });
+    }
+
+    function buscarCPF()
+    {
+        var _cpf = $("#PessoaFisica_Cpf").val();
+        $.ajax({
+            url: '@Url.Action("BuscarCPF","PessoaFisicas")',
+            type: 'GET',
+            contentType: "application/json",
+            data: { CPF: _cpf },
+            success: function (result) {
+                if (result.value == null) {
+                    $("#PessoaFisica_Cpf").removeClass("is-invalid");
+                    $("#PessoaFisica_Cpf").addClass("is-valid");
+                    $("#cadastrar").removeAttr("disabled");
+                } else {
+                    $("#PessoaFisica_Cpf").removeClass("is-valid");
+                    $("#PessoaFisica_Cpf").addClass("is-invalid");
+                    $("#cpfInvalido").html(result.value);
+                    $("#cadastrar").attr("disabled", true);
+                }
+            },
+            error: function (xhr, exception) {
+                alert("Erro ao buscar CPF")
+            }
+        });
+    }
+
+    function buscarCEP() {
+        var cep = $("#CEP").val();
+        $.ajax({
+            url: '@Url.Action("BuscarCEP","Correios")',
+            type: "GET",
+            contentType: "application/json",
+            data: { zipCode: cep },
+            success: function (result) {
+                if (result) {
+                    $("#Logradouro").val(result.logradouro);
+                    $("#Municipio").val(result.localidade);
+                    $("#UF").val(result.uf);
+                    $("#Bairro").val(result.bairro);
+                    $("#CEP").removeClass("is-invalid");
+                } else {
+                    $("#CEP").addClass("is-invalid");
+                }
+            },
+            error: function (xhr, exception) {
+                alert("Erro ao buscar CEP!")
+            }
+        });
+    }
+</script>

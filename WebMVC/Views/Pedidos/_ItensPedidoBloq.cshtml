@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Domain.Models.Item>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Imagem
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                Valor Unitário
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="linha-@item.Id">
+                <td class="carrinho-img">
+                    <img src="@item.Produto.ImagensProduto.First().UrlImagem" alt="" class="img-edit-prod" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Nome)
+                </td>
+                <td>
+                    <input name="item-@item.Produto.Id" value="@item.Quantidade" disabled class="form-control" />
+                </td>
+                <td>
+                    R$ @Html.DisplayFor(modelItem => item.ValorUnidade)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

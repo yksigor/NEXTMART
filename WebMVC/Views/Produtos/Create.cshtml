@@ -1,0 +1,86 @@
+﻿@model WebMVC.Models.ProdutosViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="details-bigbox container fill-content">
+    <h1>Cadastrar Produto</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" enctype="multipart/form-data" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Produto.IdCategoria" class="control-label"></label>
+                    <select asp-for="Produto.IdCategoria" class="form-control" asp-items="@(new SelectList(Model.DropDownCategorias,nameof(Model.Produto.Categoria.Id),nameof(Model.Produto.Categoria.Nome)))">
+                        <option selected="selected" value=""></option>
+                    </select>
+                    <span asp-validation-for="Produto.IdCategoria" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.Nome" class="control-label"></label>
+                    <input asp-for="Produto.Nome" class="form-control" />
+                    <span asp-validation-for="Produto.Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.Marca" class="control-label"></label>
+                    <input asp-for="Produto.Marca" class="form-control" />
+                    <span asp-validation-for="Produto.Marca" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.Descricao" class="control-label"></label>
+                    <textarea asp-for="Produto.Descricao" class="form-control"></textarea>
+                    <span asp-validation-for="Produto.Descricao" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.Preco" class="control-label"></label>
+                    <input asp-for="Produto.Preco" class="form-control" />
+                    <span asp-validation-for="Produto.Preco" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.QuantidadeEstoque" class="control-label"></label>
+                    <input asp-for="Produto.QuantidadeEstoque" class="form-control" />
+                    <span asp-validation-for="Produto.QuantidadeEstoque" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Produto.ImagensProduto" class="control-label"></label>
+                    <div id="imagens"></div>
+                    <input type="file" id="arquivo" name="arquivos" multiple />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Cadastrar" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-warning text-white">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function uploadImagem() {
+        var files = $("#arquivo").get(0).files;
+
+        var data = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+            data.append(files[i].name, files[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "../api/files/upload",
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (message) {
+                $.each(message, function (key, value) {
+                    $("#imagens").append.html("<img src='../" + value + "'/>");
+                });
+            },
+            error: function () {
+                alert("Ocorreu um erro");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,146 @@
+﻿@model WebMVC.Models.VitrineLojaViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Vitrine Loja";
+}
+<!-- Start Conteúdo Principal -->
+<div class="fill-box container">
+    <!-- Start Banner -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="~/img/slide/1.png" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <a asp-controller="Login" asp-action="CriarNovo"><img class="d-block w-100" src="~/img/slide/2.png" alt="Slide 2"></a>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- End Banner -->
+    <!-- Start Categorias Owl Carrosel -->
+    <div class="row center">
+        <div class="col-md-12">
+            <h2 class="owl-title">Categorias</h2>
+        </div>
+    </div>
+    <div class="owl-carousel owl-theme">
+        @foreach (var c in ViewBag.Categorias)
+        {
+            <div class="item owl-categoria"><h4><a asp-action="IndexByIdCategoria" asp-controller="VitrineLoja" asp-route-id="@c.Id" class="text-white">@c.Nome</a></h4></div>
+        }
+    </div>
+    <script>
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            })
+    </script>
+    <!-- End Categorias Owl Carrosel -->
+    <!-- Start Produtos -->
+    @{ string classe = "";}
+    <div class="m-auto">
+        @{ int count = 0;
+            foreach (var p in this.Model.Produtos)
+            {
+                count++;
+                <div class="p-1 col-md-3 float-left">
+                    <div class="card">
+                        @if (p.ImagensProduto.Count > 0)
+                        {
+                            <div id="carousel_@count" class="carousel slide" data-ride="false" data-pause="true">
+                                <ol class="carousel-indicators">
+                                    @for (int x = 0; x < p.ImagensProduto.Count; x++)
+                                    {
+                                        @if (x == 0) { classe = "active"; }
+                                        else { classe = ""; }
+                                        <li data-target="#carousel_@count" data-slide-to="@x" class="@classe"></li>
+                                    }
+                                </ol>
+                                <div class="carousel-inner">
+
+                                    @for (int x = 0; x < p.ImagensProduto.Count; x++)
+                                    {
+
+                                        @if (x == 0) { classe = "active"; }
+                                        else { classe = ""; }
+                                        <div class="carousel-item limit-produto @classe ">
+                                            <a class="example-image-link" href="@p.ImagensProduto[x].UrlImagem" data-lightbox="@p.Nome" data-title="@p.Marca - @p.Nome">
+                                                <img class="card-img-top" src="@p.ImagensProduto[x].UrlImagem" alt="@p.Nome">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                                <a class="carousel-control-prev" href="#carousel_@count" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carousel_@count" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        }
+                            <div class="card-body bg-light">
+                                <div class="vitrine-prod-titulo">
+                                    <a asp-controller="VitrineLoja" asp-action="VerProduto" asp-route-id="@p.Id" class="h4">@p.Nome</a>
+                                </div>
+                                    <span class="badge badge-info vitrine-marca">@Html.DisplayFor(modelItem => p.Marca)</span>
+                                    <div class="row">
+                                        <div class="col-md-6 buy-info-product">
+                                            <label disabled class="card-text">R$ @Html.DisplayFor(modelItem => p.Preco)</label>
+                                        </div>
+                                        <div class="col-md-6 buy-info-product">
+                                            <a asp-controller="VitrineLoja" asp-action="VerProduto" asp-route-id="@p.Id" class="btn btn-success">Ver Produto</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            }
+        }
+    </div>
+    <!-- End Produtos -->
+
+</div>
+
+<script>
+    $("#Produtos").keyup(function () {
+        $.ajax({
+            method: "GET",
+            url: '@Url.Action("BuscarProduto","VitrineLoja")',
+            data: { nomeProduto: $("#Produtos").val()}
+        })
+            .done(function (data) {
+                $("#tabela").empty();
+
+                $.each(data, function (index, valor) {
+                    $("#tabela").append("<div><a href='@Url.Action("VerProduto", "VitrineLoja")/"+valor.id+"'>" + valor.nome + "</a></div>");
+                })
+            });
+    });
+</script>
